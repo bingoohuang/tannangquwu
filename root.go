@@ -8,11 +8,11 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/mitchellh/go-homedir"
+	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql" // import MySQL driver
 )
 
 // nolint:gochecknoglobals
