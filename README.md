@@ -19,8 +19,6 @@
     ```bash
     🕙[2020-09-08 10:30:43.202] ❯ tannangquwu gen -r 1000000
     2020/09/08 10:30:57 Generating records by config &{NumRecs:1000000 BatchSize:1000 LogSeconds:10}
-    2020/09/08 10:30:57 Opening database
-    2020/09/08 10:30:57 Starting progress logging
     2020/09/08 10:30:57 Starting inserts
     2020/09/08 10:31:07  526999/1000000 ( 52.70%) written in 10.000039601s, avg: 18.975µs/record, 52699.69 records/s
     2020/09/08 10:31:17  919999/1000000 ( 92.00%) written in 20.000474198s, avg: 21.739µs/record, 45998.86 records/s
