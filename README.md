@@ -33,3 +33,9 @@
     Read throughput:		79 KiB/sec
     Write throughput:		49 KiB/sec
     Test time:			1.712166417s
+
+1. 所使用SQL
+
+    update seq set num = num + 1 where name = '步兵';
+    update card set state = 1 where id = (select num from seq where name = '步兵') and state = 0;
+    select num from seq where name = '步兵';
