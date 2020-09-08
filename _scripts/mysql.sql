@@ -1,5 +1,5 @@
 drop database if exists card;
-create database card;
+create database card character set utf8mb4 collate utf8mb4 unicode ci;
 use card;
 
 drop table if exists card;
