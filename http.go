@@ -3,6 +3,7 @@ package tannangquwu
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"github.com/bingoohuang/ginx/pkg/sqlrun"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -48,78 +49,18 @@ func (g *HTTPCmd) run(cmd *cobra.Command, args []string) {
 }
 
 func (g *HTTPCmd) tannangquwu(ctx *fasthttp.RequestCtx) {
-	args := ctx.QueryArgs()
-	num := args.GetUintOrZero("num")
-	if num <= 0 {
-		num = 1
-	}
-
-	db := g.db
-
-	tx, err := db.Begin()
-	if err != nil {
-		ctx.Error(err.Error(), 500)
-		return
-	}
-
-	run := sqlrun.NewSQLRun(tx, sqlrun.NewMapPreparer(""))
-	name := "步兵"
-	numSQL := `insert into seq(name, num) values (?, ?) on duplicate key update num = num + ?`
-	result := run.DoUpdate(numSQL, name, num, num)
+	run := sqlrun.NewSQLRun(g.db, sqlrun.NewMapPreparer(""))
+	numSQL := `
+		update seq set num = num + 1 where name = '步兵';
+		update card set state = 1 where id = (select num from seq where name = '步兵') and state = 0;
+		select num from seq where name = '步兵';
+		`
+	result := run.DoQuery(numSQL)
 	if result.Error != nil {
 		ctx.Error(result.Error.Error(), 500)
 		return
 	}
-	if result.RowsAffected == 0 {
-		ctx.Error("result.RowsAffected == 0", 500)
-		return
-	}
 
-	query := run.DoQuery("select num from seq where name = ?", name)
-	numEnd, _ := strconv.ParseInt(query.Rows.([][]string)[0][0], 10, 64)
-	//log.Printf("numEnd: %d", numEnd)
-	useSQL := `update card set state = 1 where id = ? and state = 0`
-	getSQL := `select num from card where id = ?`
-	useArgs := []interface{}{numEnd}
-	if num > 1 {
-		useSQL = `update card set state = 1  where id > ? and id <= ? and state = 0`
-		getSQL = `select num from card where id > ? and id <= ? and state = 0`
-		useArgs = []interface{}{numEnd - int64(num), numEnd}
-	}
-
-	useResult := run.DoUpdate(useSQL, useArgs...)
-	if useResult.Error != nil {
-		ctx.Error(useResult.Error.Error(), 500)
-		return
-	}
-
-	if useResult.RowsAffected != int64(num) {
-		ctx.Error("Failed", 500)
-		return
-	}
-
-	getResult := run.DoQuery(getSQL, useArgs...)
-	tx.Commit()
-
-	if getResult.RowsCount > 0 {
-		//log.Printf("card nums: %s", Join(getResult.Rows.([][]string), ","))
-		return
-	}
-
-	//log.Printf("no cards found")
-	ctx.Error("no cards found", 500)
-}
-
-func Join(ss [][]string, sep string) string {
-	result := ""
-
-	for _, row := range ss {
-		if result != "" {
-			result += sep
-		}
-
-		result += row[0]
-	}
-
-	return result
+	numEnd, _ := strconv.ParseInt(result.Rows.([][]string)[0][0], 10, 64)
+	ctx.Write([]byte(fmt.Sprintf("%d", numEnd)))
 }
