@@ -12,7 +12,7 @@ create table card
     code   varchar(36) not null comment '卡密',
     state int not null default 0 comment '状态。 0:未用 1:预占 2:已用'
 ) engine = innodb
-  default charset = utf8mb4 comment '重置卡表';
+  default charset = utf8mb4 comment '卡表';
 
 create unique index idx_card_num on card(num);
 create unique index idx_card_code on card(code);
