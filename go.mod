@@ -3,6 +3,7 @@ module github.com/bingoohuang/tannangquwu
 go 1.14
 
 require (
+	github.com/bingoohuang/ginx v1.0.0
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/google/uuid v1.1.2
 	github.com/mitchellh/go-homedir v1.1.0

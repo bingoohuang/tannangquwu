@@ -35,10 +35,8 @@ func init() {
 
 func (g *GenerateCmd) initFlags(f *pflag.FlagSet) {
 	// Here you will define your flags and configuration settings.
-	f.IntVarP(&g.NumRecs, "records", "r", 100000,
-		"number of records to generate")
-	f.IntVarP(&g.BatchSize, "batch", "b", 100,
-		"number of records as a batch to insert at one time")
+	f.IntVarP(&g.NumRecs, "records", "r", 100000, "number of records to generate")
+	f.IntVarP(&g.BatchSize, "batch", "b", 1000, "batch size to insert at one time")
 }
 
 func (g *GenerateCmd) run(cmd *cobra.Command, args []string) {
@@ -80,6 +78,7 @@ func (g GenerateCmd) inserts(i *int, db *sql.DB, done chan bool) {
 	args := make([]interface{}, 0, g.BatchSize*3)
 
 	for *i = 0; *i < g.NumRecs; *i++ {
+		// B77AF07D-4617-47A8-ABCF-DA74C809D881
 		args = append(args, uuid.New().String(), uuid.New().String())
 
 		if len(args) == g.BatchSize*2 {

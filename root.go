@@ -52,9 +52,8 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	pf := rootCmd.PersistentFlags()
-	pf.StringVarP(&cfgFile, "config", "c", "",
-		"config file (default is $HOME/.tannangquwu.yaml)")
-	pf.StringVar(&dbPath, "db", "root:root@tcp(127.0.0.1:3305)/card?charset=utf8mb4&parseTime=true&loc=Local",
+	pf.StringVarP(&cfgFile, "config", "c", "", "config file (default is ~/.tannangquwu.yaml)")
+	pf.StringVar(&dbPath, "db", "root:root@tcp(127.0.0.1:3306)/card?charset=utf8mb4&parseTime=true&loc=Local",
 		"path to MySQL")
 }
 
