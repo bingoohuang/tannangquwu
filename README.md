@@ -15,7 +15,7 @@
 1. 避免低效查询(state=0)，以及查询出来的结果被竞争消费
 2. 实现简单高效，池化后效率非常高
 
-![image](https://user-images.githubusercontent.com/1940588/92440419-0c9f7800-f1df-11ea-9ed7-ba38beec0029.png)
+![image](https://user-images.githubusercontent.com/1940588/92442802-162adf00-f1e3-11ea-807b-3715fd74081c.png)
 
 验证步骤：
 
