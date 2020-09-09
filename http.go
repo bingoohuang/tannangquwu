@@ -29,7 +29,7 @@ func init() {
 	cmd := &cobra.Command{
 		Use:   "http",
 		Short: "http service to consume cards",
-		Long:  `探囊取物`,
+		Long:  `探囊取物HTTP服务`,
 		Run:   c.run,
 	}
 	c.ctx = cmd.Context()
@@ -44,7 +44,7 @@ func (g *HTTPCmd) initFlags(f *pflag.FlagSet) {
 }
 
 func (g *HTTPCmd) run(cmd *cobra.Command, args []string) {
-	log.Printf("探囊取物 %+v", g)
+	log.Printf("探囊取物服务开启 %+v", g)
 	g.db = setup(0)
 	g.pool = make(chan int64, g.poolSize)
 
