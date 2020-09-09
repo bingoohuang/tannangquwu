@@ -72,8 +72,7 @@ func (g *HTTPCmd) poolPump() {
 		update seq set num = num + %d where name = '步兵';
 		set @num = (select num from seq where name = '步兵');
 		update card set state = 1 where id > @num - %d and id <= @num and state = 0;
-		select @num;
-		`, g.poolSize, g.poolSize)
+		select @num;`, g.poolSize, g.poolSize)
 
 	for {
 		result := run.DoQuery(numSQL)
